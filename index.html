@@ -208,4 +208,41 @@
   <!-- Scripts -->
   <script>
     // Footer year
-    document.getElementById('year').textContent = new Date().getFull
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Modal: cerrar con botón
+    function closeModal() {
+      document.getElementById("presentationModal").classList.add("hidden");
+    }
+
+    // Galería deslizable
+    document.querySelectorAll(".gallery").forEach(gallery => {
+      const imgs = gallery.querySelectorAll("img");
+      const nextBtn = gallery.querySelector(".next");
+      const prevBtn = gallery.querySelector(".prev");
+      let current = 0;
+
+      function updateGallery() {
+        imgs.forEach((img, i) => {
+          img.classList.toggle("active", i === current);
+          img.classList.toggle("hidden", i !== current);
+        });
+      }
+
+      nextBtn?.addEventListener("click", () => {
+        current = (current + 1) % imgs.length;
+        updateGallery();
+      });
+
+      prevBtn?.addEventListener("click", () => {
+        current = (current - 1 + imgs.length) % imgs.length;
+        updateGallery();
+      });
+
+      updateGallery();
+    });
+  </script>
+</body>
+</html>
+
+ 
