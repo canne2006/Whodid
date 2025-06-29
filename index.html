@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whodid – Hoodies que marcan estilo</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary:#111;
+      --accent:#ffffff;
+      --text:#eaeaea;
+      --brand:#81e6d9;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{
+      font-family:'Poppins',sans-serif;
+      background:var(--primary);
+      color:var(--text);
+      line-height:1.6;
+    }
+    /* ---------- HEADER ---------- */
+    header{
+      position:fixed;top:0;left:0;right:0;
+      background:rgba(0,0,0,.85);backdrop-filter:blur(6px);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:.5rem 2rem;z-index:999;
+    }
+    .logo-small{width:58px;height:58px;border-radius:50%;overflow:hidden;flex-shrink:0;}
+    .logo-small img{width:100%;height:100%;object-fit:cover;}
+    nav ul{list-style:none;display:flex;gap:1.5rem;}
+    nav a{color:var(--text);text-decoration:none;font-weight:500;transition:color .2s;}
+    nav a:hover{color:var(--accent);}    
+
+    /* ---------- HERO ---------- */
+    .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:6rem 2rem 2rem;text-align:center;}
+    .hero img{width:90%;max-width:720px;height:auto;}
+    .tagline{margin-top:1.5rem;font-size:1.25rem;font-weight:300;color:var(--text);}    
+
+    /* ---------- PRODUCTS ---------- */
+    #productos{padding:4rem 2rem 6rem;max-width:1100px;margin:0 auto;}
+    .section-title{font-size:2rem;font-weight:600;text-align:center;margin-bottom:3rem;color:var(--accent);}    
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2.5rem;}
+    .product-card{background:#1a1a1a;border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;box-shadow:0 0 12px rgba(0,0,0,.45);}    
+    .gallery{position:relative;width:100%;padding-top:100%;overflow:hidden;border-radius:12px;}
+    .gallery img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;transition:opacity .4s ease;}
+    .gallery img.hidden{opacity:0;}
+    .gallery img.active{opacity:1;}
+    .gallery button{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.55);border:none;color:var(--accent);font-size:2rem;width:42px;height:42px;border-radius:50%;cursor:pointer;}
+    .gallery .prev{left:8px;}.gallery .next{right:8px;}.gallery button:hover{background:rgba(0,0,0,.8);}    
+    .product-card h3{margin:1rem 0 .5rem;font-size:1.15rem;font-weight:500;text-align:center;color:var(--accent);}    
+    .price{margin-bottom:1rem;font-weight:600;font-size:1.1rem;color:var(--brand);}    
+    .buy-btn{padding:.65rem 1.5rem;background:var(--brand);color:#000;border:none;border-radius:30px;text-decoration:none;font-weight:600;transition:background .25s;cursor:pointer;display:inline-block;}
+    .buy-btn:hover{background:#63cdbf;}    
+
+    /* ---------- FAQ ---------- */
+    #faq{padding:4rem 2rem;background:#1a1a1a;}
+    .faq-item{max-width:800px;margin:0 auto 2rem;}
+    .faq-item h3{font-size:1.2rem;color:#fff;margin-bottom:.5rem;}
+    .faq-item p{font-weight:300;color:#ccc;}    
+
+    /* ---------- FOOTER ---------- */
+    footer{text-align:center;padding:2rem;background:#0c0c0c;font-size:.85rem;color:#666;}    
+
+    /* ---------- WHATSAPP BUTTON ---------- */
+    .whatsapp-button{position:fixed;bottom:20px;right:20px;background:#25d366;color:#fff;border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;font-size:28px;text-decoration:none;z-index:998;box-shadow:0 0 10px rgba(0,0,0,.5);}    
+    .whatsapp-button:hover{background:#1ebe5d;}    
+
+    /* ---------- PRESENTATION MODAL ---------- */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;z-index:1001;}
+    .modal.hidden{display:none;}
+    .modal::before{content:"";position:absolute;inset:0;background:url('img/smoke.png') center/cover no-repeat;opacity:0.25;animation:smoke 40s linear infinite;pointer-events:none;filter:blur(4px);}    
+    @keyframes smoke{from{transform:translateY(0);}to{transform:translateY(-200px);} }
+    .modal-content{position:relative;max-width:650px;padding:2.5rem;text-align:center;z-index:1;}
+    .modal-content p{font-size:1.1rem;font-weight:300;margin-bottom:2rem;color:#f1f1f1;}
+    .modal-content h2{font-size:2rem;font-weight:600;margin-bottom:2.5rem;color:var(--accent);}    
+    .close-modal{padding:.75rem 2rem;background:var(--brand);border:none;border-radius:30px;font-weight:600;cursor:pointer;transition:background .25s;}    
+    .close-modal:hover{background:#63cdbf;}    
+
+    /* ---------- RESPONSIVE ---------- */
+    @media(max-width:600px){.hero img{width:100%;}.tagline{font-size:1rem;}}
+  </style>
+</head>
+<body>
+  <!-- Presentation Modal -->
+  <div id="presentationModal" class="modal">
+    <div class="modal-content">
+      <p>Somos una marca creada para reinventar la forma en la que usas una hoodie. Creemos que cada prenda puede ser una declaración personal, por eso transformamos la clásica hoodie en una pieza única con estilo, diseño y esencia propia.</p>
+      <h2>Somos WHODID</h2>
+      <button class="close-modal" onclick="closeModal()">Entrar</button>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <a href="#" class="logo-small"><img src="img/logo-circle.png" alt="Whodid logo pequeño"></a>
+    <nav>
+      <ul>
+        <li><a href="#colecciones">Colecciones</a></li>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero / Portada principal -->
+  <section id="inicio" class="hero">
+    <div>
+      <img src="img/whodid-wordmark.png" alt="Whodid Wordmark">
+      <p class="tagline">Hoodies que marcan estilo.</p>
+    </div>
+  </section>
+
+  <!-- Productos -->
+  <section id="productos">
+    <h2 class="section-title">Productos</h2>
+
+    <!-- Barra de búsqueda -->
+    <div style="text-align:center;margin-bottom:2rem;">
+      <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Buscar producto..." style="padding:.7rem 1rem;width:100%;max-width:400px;border-radius:30px;border:none;font-size:1rem;">
+    </div>
+
+    <div class="products-grid" id="productsContainer">
+      <!-- Product card example -->
+      <div class="product-card">
+        <div class="gallery" id="gallery-1">
+          <img src="img/hoodie1.png" alt="Hoodie Waves – vista frontal" class="active">
+          <img src="img/hoodie2.png" alt="Hoodie Waves – diseño alternativo" class="hidden">
+          <button class="prev" aria-label="Imagen anterior">&#10094;</button>
+          <button class="next" aria-label="Imagen siguiente">&#10095;</button>
+        </div>
+        <h3>Hoodie "Waves" Sand/Teal</h3>
+        <p class="price">$899 MXN</p>
+        <button class="buy-btn" onclick="addToCart('Hoodie Waves Sand/Teal', 899)">Agregar al carrito</button>
+        <a href="https://wa.me/5573878279?text=Hola!%20Quiero%20comprar%20el%20Hoodie%20Waves%20Sand/Teal%20de%20$899%20MXN" target="_blank" class="buy-btn" style="margin-top:.5rem;">Comprar ahora</a>
+      </div>
+      <!-- puedes duplicar .product-card para más productos -->
+    </div>
+
+    <div style="text-align:center;margin-top:2rem;">
+      <button class="buy-btn" onclick="sendCartToWhatsApp()">Enviar pedido por WhatsApp</button>
+    </div>
+  </section>
+
+  <!-- Colecciones -->
+  <section id="colecciones" style="padding:4rem 2rem;text-align:center;background:#1a1a1a;">
+    <h2 class="section-title">Colecciones</h2>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:1.5rem;margin-bottom:2rem;">
+      <a href="#coleccion-elementos" class="buy-btn">Elementos</a>
+      <a href="#" class="buy-btn">Sistema Solar</a>
+      <a href="#" class="buy-btn">Pantone</a>
+      <a href="#" class="buy-btn">Ice Cream</a>
+      <a href="#" class="buy-btn">Siluetas</a>
+    </div>
+
+    <div id="coleccion-elementos" style="margin-top:4rem;">
+      <h3 style="font-size:1.5rem;margin-bottom:2rem;color:var(--accent);">Colección: Elementos – "Agua"</h3>
+      <div class="product-card" style="max-width:400px;margin:0 auto;">
+        <div class="gallery" id="gallery-elementos">
+          <img src="img/hoodie1.png" alt="Agua – frontal" class="active">
+          <img src="img/hoodie2.png" alt="Agua – reverso" class="hidden">
+          <button class="prev" aria-label="Imagen anterior">&#10094;</button>
+          <button class="next" aria-label="Imagen siguiente">&#10095;</button>
+        </div>
+        <h3>Modelo: Agua</h3>
+        <p class="price">$899 MXN</p>
+        <button class="buy-btn" onclick="addToCart('Colección Elementos – Agua', 899)">Agregar al carrito</button>
+        <a href="https://wa.me/5573878279?text=Hola!%20Quiero%20comprar%20la%20hoodie%20Agua%20de%20la%20colección%20Elementos%20por%20$899%20MXN" target="_blank" class="buy-btn" style="margin-top:.5rem;">Comprar ahora</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <h2 class="section-title">Preguntas Frecuentes (FAQ)</h2>
+    <div class="faq-item"><h3>¿Hacen envíos a todo México?</h3><p>Sí, realizamos envíos a todo el país con costo adicional dependiendo del destino.</p></div>
+    <div class="faq-item"><h3>¿Puedo personalizar mi hoodie?</h3><p>¡Claro! Escríbenos por WhatsApp para solicitar diseños personalizados o colaboraciones.</p></div>
+    <div class="faq-item"><h3>¿Aceptan pagos contra entrega?</h3><p>No, por el momento solo aceptamos pagos por transferencia o depósito.</p></div>
+  </section>
+
+  <!-- Sobre nosotros -->
+  <section id="sobre" style="padding:4rem 2rem;background:#0c0c0c;text-align:center;">
+    <h2 class="section-title">Sobre Whodid</h2>
+    <p style="max-width:700px;margin:0 auto;font-weight:300;">Whodid nace de la pasión por el streetwear y el arte gráfico. Diseñamos hoodies únicos que combinan comodidad y actitud para que expreses quién eres sin decir una palabra.</p>
+  </section>
+
+  <!-- Contacto -->
+  <section id="contacto" style="padding:4rem 2rem;text-align:center;">
+    <h2 class="section-title">Contacto</h2>
+    <p>Síguenos en nuestras redes o envíanos un mensaje directo para pedidos personalizados.</p>
+    <div style="margin-top:1.5rem;display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;">
+      <a href="https://instagram.com/tu_instagram" target="_blank" style="text-decoration:none;color:var(--accent);font-weight:600;">Instagram</a>
+      <a href="https://wa.me/5573878279" target="_blank" style="text-decoration:none;color:var(--accent);font-weight:600;">WhatsApp</a>
+    </div>
+  </section>
+
+  <footer>© <span id="year"></span> Whodid. Todos los derechos reservados.</footer>
+
+  <!-- Botón de WhatsApp flotante -->
+  <a href="https://wa.me/5573878279" class="whatsapp-button" target="_blank" aria-label="Enviar mensaje por WhatsApp">💬</a>
+
+  <!-- Scripts -->
+  <script>
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFull
